@@ -17,9 +17,10 @@ import com.douglas2990.aulas.desafiotestedeempregomodulo18.adapter.ImageCatsAdap
 import com.douglas2990.aulas.desafiotestedeempregomodulo18.databinding.FragmentFirstBinding
 import com.douglas2990.aulas.desafiotestedeempregomodulo18.model.Image
 import com.douglas2990.aulas.desafiotestedeempregomodulo18.screenstate.CatsScreenState
-import com.douglas2990.aulas.desafiotestedeempregomodulo18.screenstate.ImageCatsScreenState
+import com.douglas2990.aulas.desafiotestedeempregomodulo18.screenstate.ImageCatsScreenState2
 import com.douglas2990.aulas.desafiotestedeempregomodulo18.viewModel.CatsViewModel
 import com.douglas2990.aulas.desafiotestedeempregomodulo18.viewModel.ImageCatsViewModel
+import com.douglas2990.aulas.desafiotestedeempregomodulo18.viewModel.ImagesCatsViewModel2
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -30,6 +31,7 @@ class FirstFragment : Fragment() {
 
     private val viewModel: CatsViewModel by viewModels()
     private val viewModelImages: ImageCatsViewModel by viewModels()
+    private val viewModelImages2: ImagesCatsViewModel2 by viewModels()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -50,7 +52,8 @@ class FirstFragment : Fragment() {
         binding.recyclerFirst.layoutManager = LinearLayoutManager(context)
 
         //title_cats()
-        image_cats()
+        //image_cats()
+        image_cats2()
 
             //findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
 
@@ -93,16 +96,20 @@ class FirstFragment : Fragment() {
                     is CatsScreenState.Success -> {
                         //binding.recyclerFirst.adapter = CatsAdapter(state.data[0])
                         val listaUrlImagens = ArrayList<Image>()
+                        //val listaUrlImagens = ArrayList<state.data>
+                        //val listaUrlImagens = state.data.toTypedArray()
 
                         //binding.textQuantos.text = state.data.size.toString()
                         for (i in 0 ..< state.data.size) {
                             //binding.recyclerFirst.adapter = ImageCatsAdapter(state.data[i].images)
                             for (y in 0 ..< state.data[i].images.size){
                                 listaUrlImagens.add(state.data[i].images[y])
+                                //binding.recyclerFirst.adapter = ImageCatsAdapter(state.data[i].images[y])
                             }
 
                         }
                         binding.recyclerFirst.adapter = ImageCatsAdapter(listaUrlImagens)
+
                     }
 
                     is CatsScreenState.Error -> Toast.makeText(context, state.messageId, Toast.LENGTH_LONG).show()
@@ -110,7 +117,29 @@ class FirstFragment : Fragment() {
 
             })
     }
+    private fun image_cats2(){
+
+        binding.recyclerFirst.layoutManager = GridLayoutManager(
+            context,3,RecyclerView.VERTICAL, false
+        )
+
+        viewModelImages2.state.observe(viewLifecycleOwner,
+            Observer { state ->
+                binding.recyclerFirst.isVisible = state is ImageCatsScreenState2.Success
+
+                when (state){
+                    is ImageCatsScreenState2.Loading -> {}
+                    is ImageCatsScreenState2.Success -> {
+                        binding.recyclerFirst.adapter = ImageCatsAdapter(state.data)
+                    }
+
+                    is ImageCatsScreenState2.Error -> Toast.makeText(context, state.messageId, Toast.LENGTH_LONG).show()
+                }
+
+            })
+    }
 
 }
+
 
 

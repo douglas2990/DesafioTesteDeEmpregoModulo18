@@ -1,6 +1,7 @@
 package com.douglas2990.aulas.desafiotestedeempregomodulo18.screenstate
 
 import androidx.annotation.StringRes
+import com.douglas2990.aulas.desafiotestedeempregomodulo18.model.Data
 import com.douglas2990.aulas.desafiotestedeempregomodulo18.model.Image
 
 sealed class ImageCatsScreenState {

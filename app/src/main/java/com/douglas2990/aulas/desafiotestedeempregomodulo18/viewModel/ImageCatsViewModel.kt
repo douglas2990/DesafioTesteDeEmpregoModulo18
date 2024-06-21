@@ -24,7 +24,8 @@ class ImageCatsViewModel: ViewModel() {
             ) {
                 response.body()?.let { body ->
                     state.value = ImageCatsScreenState.Success(body.data[0].images)
-                    //tate.value = ImageCatsScreenState.Success(body.data.)
+
+
                     /*
                     state.value = ImageCatsScreenState.Success(
                         body.data.forEach { dados ->
@@ -43,6 +44,3 @@ class ImageCatsViewModel: ViewModel() {
     }
 }
 
-private fun <E> List<E>.add(link: String) {
-
-}
